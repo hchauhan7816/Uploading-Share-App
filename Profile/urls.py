@@ -15,15 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import go_login
-from django.conf.urls.static import static
-from django.conf import settings
+from .views import update_person_view, register_user_view, login_person_view, home_page_view, logout_person_view
+
+app_name = 'Profile'
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('profile/', include('Profile.urls')),
-    path('', go_login, name='pta_na_kya')
+    path('register/', register_user_view, name="register_url"),
+    path('update/', update_person_view, name="update_url"),
+    path('login/', login_person_view, name="login_url"),
+    path('logout/', logout_person_view, name="logout_url"),
+    path('myprofile', home_page_view, name="myprofile_url"),
 ]
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_URL)
