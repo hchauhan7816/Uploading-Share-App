@@ -15,12 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import all_posts_view, liked_by_user_view, following_posts_view
+from .views import all_posts_view, liked_by_user_view
 
 app_name = 'Posts'
 
 urlpatterns = [
-    path('explore/', all_posts_view, name="all_posts_url"),
-    path('liked/', liked_by_user_view, name="liked_by_user_url"),
-    path('home/', following_posts_view, name="following_posts_url")
+    path('explore/<int:x>', all_posts_view, name="all_posts_url"),
+    path('liked/<int:x>', liked_by_user_view, name="liked_by_user_url"),
 ]

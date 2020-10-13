@@ -37,7 +37,8 @@
         {% endif %}
     </form>
     &nbsp; &nbsp;
-    <a href="{% url 'Posts:all_posts_url' %}">Explore</a>
+    <a href="{% url 'Posts:all_posts_url' x=1 %}">Explore</a> &nbsp;
+    <a href="{% url 'Posts:all_posts_url' x=2 %}">Friend's Post</a>
 </body>
 
 </html>

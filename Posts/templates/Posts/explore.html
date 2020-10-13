@@ -23,7 +23,7 @@
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{cp_form.as_p}}
-        <button type="submit">Post The Image</button>
+        <button type="submit" name = "submit_post_form">Post The Image</button>
     </form>
     <br><br>
 
@@ -43,7 +43,7 @@
 
         <h5>{{post.count_likes}}</h5>
 
-        <form action="{% url 'Posts:liked_by_user_url'%}" method="POST">
+        <form action="{% url 'Posts:liked_by_user_url' x=y %}" method="POST">
             <input type="hidden" name="liked_id" value={{post.pk}}>
             {% csrf_token %}
             {% if profile in post.likes.all %}
@@ -54,8 +54,20 @@
             
         </form>
 
-        <hr>
+        {% for x in post.comment_on_post_name.all %}
+            {{ x.by_person.first_name }} {{ x.by_person.last_name }} &nbsp;
+            {{ x.content }}
+            <br>
+        {% endfor %}
 
+        <form action="" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="liked_id_2" value={{post.pk}}>
+            {{ cc_form }}
+            <button type="submit" name = "submit_comment_form">Comment</button>
+        </form>
+
+        <hr>
     {% endfor %}
 </body>
 

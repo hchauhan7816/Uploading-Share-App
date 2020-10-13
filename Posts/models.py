@@ -28,3 +28,19 @@ class Like(models.Model):
         Person, on_delete=models.CASCADE, related_name="like_kisne_dia")
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.given_by.first_name}_{self.given_by.last_name}_{self.created.strftime('%d-%m-%y')}"
+
+
+class Comment(models.Model):
+    content = models.TextField()
+    on_post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name="comment_on_post_name")
+    by_person = models.ForeignKey(
+        Person, on_delete=models.CASCADE, related_name="kisne_comment_kia")
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.by_person.first_name}_{self.by_person.last_name}_{self.created.strftime('%d-%m-%y')}"
