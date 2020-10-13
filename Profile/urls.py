@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from .views import update_person_view, register_user_view, login_person_view, home_page_view, logout_person_view
+from .views import other_profile_view, follow_person_view
 
 app_name = 'Profile'
 
@@ -25,4 +26,6 @@ urlpatterns = [
     path('login/', login_person_view, name="login_url"),
     path('logout/', logout_person_view, name="logout_url"),
     path('myprofile', home_page_view, name="myprofile_url"),
+    path('others_profile', other_profile_view, name="other_profile_url"),
+    path('follow', follow_person_view, name="follow_url"),
 ]

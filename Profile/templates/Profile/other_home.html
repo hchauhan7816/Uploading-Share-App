@@ -1,0 +1,43 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <!--Custom css ADD-->
+    <link rel="stylesheet" type='text/css' href={% static 'style.css' %}>
+    <!-- semantic UI -->
+    <link rel="stylesheet" type='text/css'
+        href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+
+    <title>Instagram</title>
+</head>
+
+<body>
+    this is {{profile.first_name}} {{profile.last_name}} <br>
+    username :: {{profile.username}}<br>
+    bio :: {{profile.bio}}<br>
+    following :: {{profile.count_following}}<br>
+    <img src='{{profile.profile_pic.url}}' class="ui small rounded image">
+
+    <form action="{% url 'Profile:follow_url' %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="profile_id" value="{{ profile.pk }}">
+        {% if following %}
+            <button type="submit">Unfollow</button>
+        {% else %}
+            <button type="submit">Follow</button>
+        {% endif %}
+    </form>
+    &nbsp; &nbsp;
+    <a href="{% url 'Posts:all_posts_url' %}">Explore</a>
+</body>
+
+</html>

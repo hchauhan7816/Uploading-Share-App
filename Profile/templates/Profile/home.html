@@ -25,10 +25,14 @@
     username :: {{profile.username}}<br>
     bio :: {{profile.bio}}<br>
     email :: {{profile.email}}<br>
-    <img src='{{profile.profile_pic.url}}' class = "ui small rounded image"><br>
-    {{profile.profile_pic.url}}<br><br>
+    following :: {{profile.count_following}}<br>
+    <img src='{{profile.profile_pic.url}}' class="ui small rounded image">
 
+    <a href="{% url 'Profile:update_url' %}">Update Profile</a> &nbsp; &nbsp;
+    <a href="{% url 'Posts:all_posts_url' %}">Explore</a> &nbsp; &nbsp;
+    <a href="{% url 'Posts:following_posts_url' %}">See Your Friends</a> &nbsp; &nbsp;
     <a href="{% url 'Profile:logout_url' %}">Logout</a>
+
 </body>
 
 </html>

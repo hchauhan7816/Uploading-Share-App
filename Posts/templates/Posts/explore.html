@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <!--Custom css ADD-->
+    <!-- semantic UI -->
+    <link rel="stylesheet" type='text/css'
+        href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+
+    <title>Posts</title>
+</head>
+
+<body>
+    <a href="{% url 'Profile:myprofile_url' %}">My Profile</a>
+
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{cp_form.as_p}}
+        <button type="submit">Post The Image</button>
+    </form>
+    <br><br>
+
+    {% for post in all_posts %}
+
+        <form action="{% url 'Profile:other_profile_url' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="post_id" value={{post.pk}}>
+            <button type="submit">{{post.author.first_name}} {{post.author.last_name}}</button>
+        </form>
+        <br>
+
+        <center>
+            <img src="{{post.picture.url}}" class="ui medium rounded image">
+        </center>
+        <br>
+
+        <h5>{{post.count_likes}}</h5>
+
+        <form action="{% url 'Posts:liked_by_user_url'%}" method="POST">
+            <input type="hidden" name="liked_id" value={{post.pk}}>
+            {% csrf_token %}
+            {% if profile in post.likes.all %}
+                <button type="submit">Unlike</button>
+            {% else %}
+                <button type="submit">Like</button>
+            {% endif %}
+            
+        </form>
+
+        <hr>
+
+    {% endfor %}
+</body>
+
+</html>

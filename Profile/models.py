@@ -20,3 +20,6 @@ class Person(models.Model):
 
     def __str__(self):
         return f"{self.first_name}_{self.last_name}_{self.created.strftime('%d-%m-%y')}"
+
+    def count_following(self):
+        return self.following.all().count()
