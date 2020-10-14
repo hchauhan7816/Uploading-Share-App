@@ -40,6 +40,9 @@ def login_person_view(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
+        print(username)
+        print(password)
+
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
@@ -47,6 +50,7 @@ def login_person_view(request):
             return redirect('Profile:myprofile_url')
         else:
             messages.info(request, "Username or Password is incorrect")
+            print("message sent")
     return render(request, 'Profile/login.html')
 
 
@@ -76,6 +80,7 @@ def logout_person_view(request):
 def home_page_view(request):
     user = request.user
 
+    Post.objects.all().order_by("-updated")
     profile = Person.objects.get(user=user)
 
     para = {

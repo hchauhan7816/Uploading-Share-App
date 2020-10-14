@@ -1,38 +1,54 @@
+{% extends 'base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
+{% block title %}
+Instagram
+{% endblock title %}
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <!--Custom css ADD-->
-    <link rel="stylesheet" type='text/css' href={% static 'style.css' %}>
-    <!-- semantic UI -->
-    <link rel="stylesheet" type='text/css'
-        href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+{% block home_active %} active {% endblock home_active %}
 
-
-    <title>Instagram</title>
-</head>
-
-<body>
+{% block body %}
     this is {{profile.first_name}} {{profile.last_name}} <br>
-    username :: {{profile.username}}<br>
+    username :: {{profile.user.username}}<br>
     bio :: {{profile.bio}}<br>
-    email :: {{profile.email}}<br>
     following :: {{profile.count_following}}<br>
-    <img src='{{profile.profile_pic.url}}' class="ui small rounded image">
+    <button class="ui right labeled icon button">
+        <i class="wrench icon"></i>
+        Update Profile
+    </button>
+    <img src='{{profile.profile_pic.url}}' class = "im">
 
-    <a href="{% url 'Profile:update_url' %}">Update Profile</a> &nbsp; &nbsp;
-    <a href="{% url 'Posts:all_posts_url' x=1 %}">Explore</a> &nbsp; &nbsp;
-    <a href="{% url 'Posts:all_posts_url' x=2 %}">See Your Friends</a> &nbsp; &nbsp;
-    <a href="{% url 'Profile:logout_url' %}">Logout</a>
+    followers :: {{ profile.user.following_in_model.all.count }}
 
-</body>
 
-</html>
+    <div class="ui three column grid">     
+        {% for post in profile.author_post_model.all %}
+            <div class="column">
+                <div class="uis">
+                    <div class="image" style="background-image:url('{{ post.picture.url }}');"></div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock body %}
+
+{% block style %}
+    .im {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+    }
+
+    .image {
+        background-size: cover;
+        background-position: center;
+        width: 356px;
+        height: 293px;
+        float: left;
+    }
+
+    .uis{
+        margin: 0 0 0 0;
+    }
+{% endblock style %}

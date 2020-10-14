@@ -1,25 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+{% block title %}
+Login
+{% endblock title %}
 
-<body>
-    <form action="" method="POST">
-        {% csrf_token %}
-        Username :: <input type="text" name="username"><br>
-        Password :: <input type="password" name="password"><br>
-        <button type="submit">Submit</button>
-    </form>
-</body>
 
-<a href="{% url 'Profile:register_url' %}">New User?</a>
+{% block body %}
 
-{% for message in messages %}
-    <p>{{message}}</p>
-{% endfor %}
+<div class="ui grid">
+    <div class="five wide column"></div>
 
-</html>
+    <div class="six wide column">
+        <div class="ui middle aligned center aligned grid">
+            <div class="column">
+                <h2 class="ui image header">
+                    <div class="content">
+                        Log-in to your account
+                    </div>
+                </h2>
+                <form action="" method="POST" class="ui large form">
+                    {% csrf_token %}
+                    <div class="ui stacked secondary  segment">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="user icon"></i>
+                                <input type="text" name="username" placeholder="E-mail address">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="password" name="password" placeholder="Password">
+                            </div>
+                        </div>
+                        <button class="ui fluid large teal Submit button">
+                            login
+                        </button>
+                    </div>
+                </form>
+
+                {% if messages %}
+                <div class="ui error message">
+                    {% for message in messages %}
+                    <p>{{message}}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="ui message">
+                    New to us? <a href="{% url 'Profile:register_url' %}">Register</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="five wide column"></div>
+
+</div>
+{% endblock body %}
+
+{% block scripts %}
+body > .grid {
+height: 100%;
+}
+
+.image {
+margin-top: -100px;
+}
+
+.column {
+max-width: 450px;
+}
+{% endblock scripts %}

@@ -1,0 +1,74 @@
+{% load static %}
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <!--Custom css ADD-->
+    <link rel="stylesheet" type='text/css' href={% static 'style.css' %}>
+    <!-- semantic UI -->
+    <link rel="stylesheet" type='text/css'
+        href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+    <style>
+    .main.container {
+        padding-top: 75px;
+    }
+    {% block style %}{% endblock style %}</style>
+
+    <title>{% block title %}{% endblock title %}</title>
+</head>
+
+<body>
+    <div class="ui fixed borderless menu">
+        <a class="purple inverted item active"><b>Share With Me</b></a> 
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'Profile:myprofile_url' %}" class="red item {% block home_active %} {% endblock home_active %}">
+            Home
+        </a>
+        <a href="{% url 'Posts:all_posts_url' x=1 %}" class="red item {% block explore_active %}{% endblock explore_active %}">
+            Explore
+        </a>
+        <a href=" {% url 'Posts:all_posts_url' x=2 %}"
+            class="red item {% block friends_active %} {% endblock friends_active %}">
+            Friend's Posts
+        </a>
+
+        <div class="right menu">
+            <a href="{% url 'Profile:update_url' %}" class="item">
+                <i class="edit icon" style="font-size: 1.5em;"></i> Update
+            </a>
+            <div class="item">
+                <a href="{% url 'Profile:logout_url' %}" class="ui primary button ">Logout</a>
+            </div>
+        </div>
+        {% else %}
+        <div class="right menu">
+            <div class="item mr-2">
+                <a href="{% url 'Profile:login_url' %}" class="ui primary button ">Login</a>
+            </div>
+            <div class="item">
+                <a href="{% url 'Profile:register_url' %}" class="ui primary button">Sign Up</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="ui main container">
+        {% block body %}
+        <i class="edit icon"></i>
+        {% endblock body %}
+    </div>
+
+    <!--Custom js ADD-->
+    <script type="text/javascript" src={% static 'main.js' %}>{% block scripts %}
+    {% endblock scripts %}</script>
+
+</body>
+
+</html>

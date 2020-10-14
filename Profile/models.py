@@ -10,7 +10,7 @@ class Person(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     username = models.CharField(max_length=250, blank=True)
     following = models.ManyToManyField(
-        User, blank=True, related_name="following")
+        User, blank=True, related_name="following_in_model")
     bio = models.TextField(default="No Bio.", max_length=250)
     email = models.EmailField(blank=True, max_length=254)
     profile_pic = models.ImageField(

@@ -1,21 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+{% block title %}
+    Register
+{% endblock title %}
 
-<body>
+{% block body %}
     <form action="" method="POST">
         {% csrf_token %}
         {{rp_form.as_p}}
         <button type="submit">Submit</button>
     </form>
-</body>
 
-{{rp_form.errors}}
+    {{rp_form.errors}}
 
-<a href="{% url 'Profile:login_url' %}">Have an account?</a>
-</html>
+    <a href="{% url 'Profile:login_url' %}">Have an account?</a>
+    
+{% endblock body %}

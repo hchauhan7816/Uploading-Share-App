@@ -1,74 +1,115 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <!--Custom css ADD-->
-    <!-- semantic UI -->
-    <link rel="stylesheet" type='text/css'
-        href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+{% block title %}
+Posts
+{% endblock title %}
+
+{% block explore_active %}{% if y == 1 %}active{% endif %}{% endblock explore_active %}
+
+{% block friends_active %}{% if y == 2 %}active{% endif %}{% endblock friends_active %}
+
+{% block body %}
 
 
-    <title>Posts</title>
-</head>
 
-<body>
-    <a href="{% url 'Profile:myprofile_url' %}">My Profile</a>
+<div class="ui grid">
+    <div class="ten wide column">
+        {% for post in all_posts %}
+        <div class="ui fluid card">
+            <div class="content">
+                <form action="{% url 'Profile:other_profile_url' %}" method="POST">
+                    <div class="right floated meta">{{ post.created|timesince }}</div>
+                    <img class="ui avatar image" src="{{post.author.profile_pic.url}}">
 
-    <form action="" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{cp_form.as_p}}
-        <button type="submit" name = "submit_post_form">Post The Image</button>
-    </form>
-    <br><br>
+                    {% csrf_token %}
+                    <input type="hidden" name="post_id" value={{post.pk}}>
+                    <button class="btn" type="submit">{{post.author.first_name}} {{post.author.last_name}}</button>
+                </form>
 
-    {% for post in all_posts %}
+            </div>
 
-        <form action="{% url 'Profile:other_profile_url' %}" method="POST">
-            {% csrf_token %}
-            <input type="hidden" name="post_id" value={{post.pk}}>
-            <button type="submit">{{post.author.first_name}} {{post.author.last_name}}</button>
-        </form>
-        <br>
+            <div class="image">
+                <img src="{{post.picture.url}}">
+            </div>
+            <div class="content">
 
-        <center>
-            <img src="{{post.picture.url}}" class="ui medium rounded image">
-        </center>
-        <br>
 
-        <h5>{{post.count_likes}}</h5>
+                <form action="{% url 'Posts:liked_by_user_url' x=y %}" method="POST">
+                    <input type="hidden" name="liked_id" value={{post.pk}}>
+                    {% csrf_token %}
+                    {% if profile in post.likes.all %}
+                    <button class="btn" type="submit" style="font-size: 1.2em;"><i class="red heart icon"></i></button>
+                    {% else %}
+                    <button class="btn" type="submit" style="font-size: 1.2em;"><i
+                            class="floated outline heart icon"></i></button>
+                    {% endif %}
+                    {{post.count_likes}} likes
 
-        <form action="{% url 'Posts:liked_by_user_url' x=y %}" method="POST">
-            <input type="hidden" name="liked_id" value={{post.pk}}>
-            {% csrf_token %}
-            {% if profile in post.likes.all %}
-                <button type="submit">Unlike</button>
-            {% else %}
-                <button type="submit">Like</button>
-            {% endif %}
-            
-        </form>
+                    <span class="right floated">
+                        <i class="comment icon" type="submit" style="font-size: 1.2em;"></i>
+                        {{ post.comment_on_post_name.all.count }} comments
+                    </span>
+                </form>
+            </div>
 
-        {% for x in post.comment_on_post_name.all %}
-            {{ x.by_person.first_name }} {{ x.by_person.last_name }} &nbsp;
-            {{ x.content }}
-            <br>
+
+
+            {% for x in post.comment_on_post_name.all %}
+
+            <div class="extra content">
+                <div class="ui large transparent left icon input">
+                    <form action="{% url 'Profile:other_profile_url' %}" method="POST">
+                        <img class="ui avatar image" src="{{ x.by_person.profile_pic.url }}">
+
+                        {% csrf_token %}
+                        <input type="hidden" name="post_id" value={{post.pk}}>
+                        <button class="btn" type="submit">{{x.by_person.first_name}} {{x.by_person.last_name}}</button>
+                        &nbsp;{{ x.content }}
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+
+            <div class="extra content">
+                <div class="ui large transparent left icon input">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="liked_id_2" value={{post.pk}}>
+                        {{ cc_form }}
+                        <span class="right floated">
+                            <div class="right floated meta">
+                                <button class="btn" type="submit" name="submit_comment_form">
+                                    <i class="chevron circle right icon" style="font-size: 1.25em;"></i></button>
+                            </div>
+                        </span>
+                    </form>
+                </div>
+            </div>
+        </div>
         {% endfor %}
+    </div>
+    <div class="six wide column">
 
-        <form action="" method="POST">
-            {% csrf_token %}
-            <input type="hidden" name="liked_id_2" value={{post.pk}}>
-            {{ cc_form }}
-            <button type="submit" name = "submit_comment_form">Comment</button>
-        </form>
+        <div class="ui card">
+            <div class="content">
+              <div class="center aligned header">{{ profile.first_name }} {{ profile.second_name }}</div>
+              <div class="center aligned description">
+                <p>Share a post with your friends , family and followers.</p>
+                <form action="" method="POST" class = "ui form" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{cp_form.as_p}}
+                    <button type="submit" class="ui primary button" name="submit_post_form">Post</button>
+                </form>
+              </div>
+            </div>
+            <div class="extra content">
+              <div class="center aligned author">
+                <img class="ui avatar image" src="{{ profile.profile_pic.url }}"> {{ profile.first_name }} {{profile.last_name}}
+              </div>
+            </div>
+          </div>
+        <br><br>
+    </div>
+</div>
 
-        <hr>
-    {% endfor %}
-</body>
-
-</html>
+{% endblock body %}

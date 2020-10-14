@@ -1,22 +1,47 @@
-<!DOCTYPE html>
+<!doctype html>
+
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <!--Custom css ADD-->
+    <!-- semantic UI -->
+    <link rel="stylesheet" type='text/css'
+        href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+
+
+    <title>Update</title>
 </head>
 
 <body>
-    {% for message in messages %}
-        <p>{{message}}</p>
-    {% endfor %}
+    <div class="ui secondary pointing menu">
+        <div class="header item">
+            Instagram
+        </div>
+        <div class="right menu">
+            <a href="{% url 'Profile:update_url' %}" class="item">
+                <i class="edit icon" style="font-size: 1.5em;"></i> Update
+            </a>
+        </div>
+    </div>
 
-    <form action="" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{up_form}}
-        <button type="submit">Submit</button>
-    </form>
+    <div class="ui container">
+        {% for message in messages %}
+            <p>{{message}}</p>
+        {% endfor %}
+
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{up_form}}
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
 </body>
 
 </html>

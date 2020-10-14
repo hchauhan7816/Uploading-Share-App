@@ -7,7 +7,7 @@ from django.core.validators import FileExtensionValidator
 
 class Post(models.Model):
     author = models.ForeignKey(
-        Person, on_delete=models.CASCADE, related_name='author_toh_dede')
+        Person, on_delete=models.CASCADE, related_name='author_post_model')
     picture = models.ImageField(upload_to='picture', validators=[
                                 FileExtensionValidator(['png', 'jpg', 'jpeg'])], blank=False)
     likes = models.ManyToManyField(Person, blank=True)
@@ -19,6 +19,9 @@ class Post(models.Model):
 
     def count_likes(self):
         return self.likes.all().count()
+
+    class Meta:
+        ordering = ('-updated',)
 
 
 class Like(models.Model):

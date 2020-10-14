@@ -24,9 +24,7 @@ def all_posts_view(request, x):
     if 'submit_comment_form' in request.POST:
         cc_form = create_comment_form(request.POST)
         if cc_form.is_valid():
-            print("here")
             post_pk = request.POST.get('liked_id_2')
-            print(post_pk)
             instance = cc_form.save(commit=False)
             instance.by_person = Person.objects.get(user=request.user)
             instance.on_post = Post.objects.get(pk=post_pk)
