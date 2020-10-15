@@ -5,10 +5,10 @@
 {% endblock title %}
 
 {% block body %}
-    <form action="" method="POST">
+    <form action="" class = "ui form" method="POST">
         {% csrf_token %}
         {{rp_form.as_p}}
-        <button type="submit">Submit</button>
+        <button class = "ui right icon button type="submit">Submit</button>
     </form>
 
     {{rp_form.errors}}

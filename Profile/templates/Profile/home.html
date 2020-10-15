@@ -8,18 +8,48 @@ Instagram
 {% block home_active %} active {% endblock home_active %}
 
 {% block body %}
-    this is {{profile.first_name}} {{profile.last_name}} <br>
-    username :: {{profile.user.username}}<br>
-    bio :: {{profile.bio}}<br>
-    following :: {{profile.count_following}}<br>
-    <button class="ui right labeled icon button">
-        <i class="wrench icon"></i>
-        Update Profile
-    </button>
-    <img src='{{profile.profile_pic.url}}' class = "im">
+    
+    <div class="ui grid">
+        <div class="two wide column"></div>
+        <div class="four wide column">
+            <img src='{{profile.profile_pic.url}}' class = "im">
+        </div>
+        <div class="eight wide column">
+            <p>
+                <div style="font-family: 'Anaheim';font-size: 35px;margin: 0 0 0 0;" class="ui container">
+                    {{profile.user.username}}&nbsp;&nbsp;
+                    <a href="{% url 'Profile:update_url' %}" class="ui right labeled icon button">
+                        <i class="wrench icon"></i>
+                        Update Profile
+                    </a>
+                </div>
+            </p>
+            <div style="font-family: 'Anaheim';font-size: 17px;margin: 0 0 0 0;" class="ui container">
+                <div class="ui three column grid">
+                    <div class="ui column">
+                        <b>{{ profile.author_post_model.all.count }}</b> Posts
+                    </div>
+                    <div class="ui column">
+                        <b>{{ profile.user.following_in_model.all.count }}</b> Followers
+                    </div>
+                    <div class="ui column">
+                        <b>{{profile.count_following}}</b> Following
+                    </div>
+                </div>
+            </div>
 
-    followers :: {{ profile.user.following_in_model.all.count }}
+            <div style="font-family: 'Anaheim';font-size: 20px;margin: 0 0 0 0;" class="ui container">
+                <br>
+                <b>{{profile.first_name}} {{profile.last_name}}</b>
+                <p style="font-family: 'Anaheim';font-size: 17px;margin: 0 0 0 0;">{{profile.bio}}</p>
+                <br>
+            </div>
+            
+        </div>
+        <div class="two wide column"></div>
+    </div>
 
+    <hr>
 
     <div class="ui three column grid">     
         {% for post in profile.author_post_model.all %}

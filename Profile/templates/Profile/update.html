@@ -14,15 +14,20 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
 
+    <style>
+    .main.container {
+        padding-top: 75px;
+    }
+    </style>
 
     <title>Update</title>
 </head>
 
 <body>
-    <div class="ui secondary pointing menu">
-        <div class="header item">
-            Instagram
-        </div>
+
+
+    <div class="ui fixed borderless menu">
+        <a class="purple inverted item active"><b>Share With Me</b></a> 
         <div class="right menu">
             <a href="{% url 'Profile:update_url' %}" class="item">
                 <i class="edit icon" style="font-size: 1.5em;"></i> Update
@@ -30,15 +35,15 @@
         </div>
     </div>
 
-    <div class="ui container">
+    <div class="ui main container">
         {% for message in messages %}
             <p>{{message}}</p>
         {% endfor %}
 
-        <form action="" method="POST" enctype="multipart/form-data">
+        <form action="" method="POST" class = "ui form"enctype="multipart/form-data">
             {% csrf_token %}
-            {{up_form}}
-            <button type="submit">Submit</button>
+            {{up_form.as_p}}
+            <button class="ui button" type="submit">Submit</button>
         </form>
     </div>
 

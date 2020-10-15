@@ -92,9 +92,13 @@ def home_page_view(request):
 
 @login_required(login_url="Profile:login_url")
 def other_profile_view(request):
-    post_id = request.POST.get('post_id')
-    post = Post.objects.get(pk=post_id)
-    author = post.author
+    if 'comment_by_person' in request.POST:
+        pk_of = request.POST.get('comment_by_person')
+        author = Person.objects.get(pk=pk_of)
+    elif 'post_id' in request.POST:
+        post_id = request.POST.get('post_id')
+        post = Post.objects.get(pk=post_id)
+        author = post.author
 
     this_person = Person.objects.get(user=request.user)
 

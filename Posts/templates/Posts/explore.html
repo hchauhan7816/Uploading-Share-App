@@ -62,8 +62,8 @@ Posts
                         <img class="ui avatar image" src="{{ x.by_person.profile_pic.url }}">
 
                         {% csrf_token %}
-                        <input type="hidden" name="post_id" value={{post.pk}}>
-                        <button class="btn" type="submit">{{x.by_person.first_name}} {{x.by_person.last_name}}</button>
+                        <input type="hidden" name="comment_by_person" value={{ x.by_person.pk }}>
+                        <button class="btn" type="submit" name="comment_by_person_submit">{{x.by_person.first_name}} {{x.by_person.last_name}}</button>
                         &nbsp;{{ x.content }}
                     </form>
                 </div>
